@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>OpenAgent Front-End Test</title>
+
+    <!-- optional: bootstrap 3 -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> -->
+
+    <!-- optional: bootstrap 4 -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link type="text/css" rel="stylesheet" href="assets/styles/materialize/css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="assets/styles/styling.css"/>
+
+  </head>
+  <body>
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo">OpenAgent - Find agents by city</a>
+    </div>
+  </nav>
+
+
+  <div class="select_city">
+
+      <h5>Select City</h5>
+      <input type="radio" name="city_selector" value="Sydney"> Sydney<br>
+      <input type="radio" name="city_selector" value="Melbourne"> Melbourne<br>
+      <input type="radio" name="city_selector" value="Brisbane">Brisbane<br>
+      <button class="btn" id="city_selector_button">Find Agents</button>
+
+  </div>
+
+  <div>
+    <h4>Top Agents in <span id="top_agent_in_city">Sydney</span></h4>
+
+    <ul>
+      <li id="agent_list"></li>
+
+    </ul>
+  </div>
+
+
+
+  <!--<button class="btn">Test</button>-->
+
+
+    <!-- load javascript api -->
+  <script src="http://indigouat.openagent.com.au/build/v1/js/indi.js"></script>
+    <!-- initialise javascript api -->
+    <script>
+      const oa = new OA();
+
+      $('#city_selector_button').on("click", function() {
+          oa.agent.getAgentsByCoordinates(-33.8688, 151.2093)
+            .then(function(results) {
+              console.log('oa results', results);
+              $.each(results.data, function(i, data) {
+                $('#agent_list').append('<li>'+ i +' ' +data.name+'<li>');
+                console.log('test', i, data);
+                return i < 19;
+              })
+            })
+      });
+
+
+      // example of attaching "agent.newfunction" to our javascript api
+      // oa.agent.newfunction = function() {
+      //   console.log("New test function");
+      // }
+      // oa.agent.newfunction();
+    </script>
+
+    <script type="text/javascript" src="assets/javascript/jquery/jquery.js"></script>
+    <script type="text/javascript" src="assets/javascript/materialize/materialize.js"></script>
+
+
+  </body>
+</html>
